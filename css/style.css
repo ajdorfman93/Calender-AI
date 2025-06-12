@@ -51,9 +51,23 @@ button {
 button:hover {
   opacity: 0.8;
 }
+.google-btn:hover {
+  opacity: 0.9;
+}
 
 #prevBtn {
   background-color: #bbbbbb;
+}
+
+.google-btn
+{
+  background-color: #db4437;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 17px;
+  font-family: Raleway;
+  cursor: pointer;
 }
 
 /* Make circles that indicate the steps of the form: */
