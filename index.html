@@ -20,6 +20,8 @@ function onSignIn(googleUser) {
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
   document.getElementById('signOutBtn').style.display = 'inline-block';
+  // Automatically advance to the next step once the user is signed in
+  nextPrev(1);
 }
 
 function signOut() {
