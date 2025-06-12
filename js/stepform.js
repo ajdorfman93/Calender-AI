@@ -13,6 +13,7 @@ function showTab(n) {
   }
   if (n == (x.length - 1)) {
     document.getElementById("nextBtn").innerHTML = "Submit";
+    compileSummary();
   } else {
     document.getElementById("nextBtn").innerHTML = "Next";
   }
@@ -69,7 +70,22 @@ function fixStepIndicator(n) {
   }
   //... and adds the "active" class on the current step:
   x[n].className += " active";
-  }
+}
+
+function compileSummary() {
+  const fname = document.querySelector("input[name='fname']").value;
+  const lname = document.querySelector("input[name='lname']").value;
+  const email = document.querySelector("input[name='email']").value;
+  const phone = document.querySelector("input[name='phone']").value;
+  const dd = document.querySelector("input[name='dd']").value;
+  const mm = document.querySelector("input[name='nn']").value;
+  const yyyy = document.querySelector("input[name='yyyy']").value;
+  const uname = document.querySelector("input[name='uname']").value;
+
+  const summary = `Name: ${fname} ${lname}\nEmail: ${email}\nPhone: ${phone}\nBirthday: ${dd}/${mm}/${yyyy}\nUsername: ${uname}`;
+  const summaryEl = document.getElementById('summary');
+  if (summaryEl) summaryEl.innerText = summary;
+}
 
 // ----------------------
 // Swipe/drag navigation
