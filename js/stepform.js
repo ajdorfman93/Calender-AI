@@ -70,23 +70,33 @@ function fixStepIndicator(n) {
   //... and adds the "active" class on the current step:
   x[n].className += " active";
   }
-  var touchStartX = null;
-var touchStartY = null;
-var swipeTarget = document.getElementById("regForm");
+
+// ----------------------
+// Swipe/drag navigation
+// ----------------------
+// Pointer events let the form respond to both touch swipes and mouse drags.
+// Handlers are registered once and internal state determines whether a swipe
+// should trigger navigation.
+let startX = null;
+let startY = null;
+let dragging = false;
+const swipeTarget = document.getElementById("regForm");
 
 if (swipeTarget) {
-  swipeTarget.addEventListener("touchstart", function (e) {
-    var touch = e.changedTouches[0];
-    touchStartX = touch.screenX;
-    touchStartY = touch.screenY;
-  }, false);
+  swipeTarget.addEventListener("pointerdown", function (e) {
+    startX = e.clientX;
+    startY = e.clientY;
+    dragging = true;
+  });
 
-  swipeTarget.addEventListener("touchend", function (e) {
-    if (touchStartX === null || touchStartY === null) return;
-    var touch = e.changedTouches[0];
-    var deltaX = touch.screenX - touchStartX;
-    var deltaY = touch.screenY - touchStartY;
-    // Only consider mostly horizontal swipes with sufficient distance
+  swipeTarget.addEventListener("pointermove", function () {
+    if (!dragging) return; // ignore moves when not dragging
+  });
+
+  swipeTarget.addEventListener("pointerup", function (e) {
+    if (!dragging) return;
+    const deltaX = e.clientX - startX;
+    const deltaY = e.clientY - startY;
     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 30) {
       if (deltaX < 0) {
         nextPrev(1);
@@ -94,42 +104,8 @@ if (swipeTarget) {
         nextPrev(-1);
       }
     }
-    touchStartX = null;
-    touchStartY = null;
-  }, false);
-}
-
-// ----------------------
-// Touch swipe navigation
-// ----------------------
-// Allow users to go to the next or previous step by swiping on the form. A
-// horizontal swipe to the left advances the form while a swipe to the right
-// goes back to the previous step.
-var touchStartX = null;
-var touchStartY = null;
-var swipeTarget = document.getElementById("regForm");
-
-if (swipeTarget) {
-  swipeTarget.addEventListener("touchstart", function (e) {
-    var touch = e.changedTouches[0];
-    touchStartX = touch.screenX;
-    touchStartY = touch.screenY;
-  }, false);
-
-  swipeTarget.addEventListener("touchend", function (e) {
-    if (touchStartX === null || touchStartY === null) return;
-    var touch = e.changedTouches[0];
-    var deltaX = touch.screenX - touchStartX;
-    var deltaY = touch.screenY - touchStartY;
-    // Only consider mostly horizontal swipes with sufficient distance
-    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 30) {
-      if (deltaX < 0) {
-        nextPrev(1);
-      } else {
-        nextPrev(-1);
-      }
-    }
-    touchStartX = null;
-    touchStartY = null;
-  }, false);
+    dragging = false;
+    startX = null;
+    startY = null;
+  });
 }
