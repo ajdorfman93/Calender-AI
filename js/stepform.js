@@ -70,3 +70,38 @@ function fixStepIndicator(n) {
   //... and adds the "active" class on the current step:
   x[n].className += " active";
 }
+
+// ----------------------
+// Touch swipe navigation
+// ----------------------
+// Allow users to go to the next or previous step by swiping on the form. A
+// horizontal swipe to the left advances the form while a swipe to the right
+// goes back to the previous step.
+var touchStartX = null;
+var touchStartY = null;
+var swipeTarget = document.getElementById("regForm");
+
+if (swipeTarget) {
+  swipeTarget.addEventListener("touchstart", function (e) {
+    var touch = e.changedTouches[0];
+    touchStartX = touch.screenX;
+    touchStartY = touch.screenY;
+  }, false);
+
+  swipeTarget.addEventListener("touchend", function (e) {
+    if (touchStartX === null || touchStartY === null) return;
+    var touch = e.changedTouches[0];
+    var deltaX = touch.screenX - touchStartX;
+    var deltaY = touch.screenY - touchStartY;
+    // Only consider mostly horizontal swipes with sufficient distance
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 30) {
+      if (deltaX < 0) {
+        nextPrev(1);
+      } else {
+        nextPrev(-1);
+      }
+    }
+    touchStartX = null;
+    touchStartY = null;
+  }, false);
+}
