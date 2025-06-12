@@ -1,5 +1,17 @@
 var currentTab = 0; // Current tab is set to be the first tab (0)
-showTab(currentTab); // Display the current tab
+
+document.addEventListener("DOMContentLoaded", function () {
+  const inputs = document.querySelectorAll("#regForm input");
+  inputs.forEach((inp) => {
+    const cached = localStorage.getItem(inp.name);
+    if (cached) inp.value = cached;
+    inp.addEventListener("input", () => {
+      localStorage.setItem(inp.name, inp.value);
+    });
+  });
+  showTab(currentTab); // Display the current tab
+  compileSummary();
+});
 
 function showTab(n) {
   // This function will display the specified tab of the form...
@@ -93,9 +105,13 @@ function compileSummary() {
   const yyyy = document.querySelector("input[name='yyyy']").value;
   const uname = document.querySelector("input[name='uname']").value;
 
-  const summary = `Name: ${fname} ${lname}\nEmail: ${email}\nPhone: ${phone}\nBirthday: ${dd}/${mm}/${yyyy}\nUsername: ${uname}`;
-  const summaryEl = document.getElementById('summary');
-  if (summaryEl) summaryEl.innerText = summary;
+  const summary =
+    `Name:\n${fname} ${lname}` +
+    `\nContact Info:\n${email}\n${phone}` +
+    `\nBirthday:\n${dd}/${mm}/${yyyy}` +
+    `\nUsername:\n${uname}`;
+  const summaryEl = document.getElementById("summary");
+  if (summaryEl) summaryEl.textContent = summary;
 }
 
 // ----------------------

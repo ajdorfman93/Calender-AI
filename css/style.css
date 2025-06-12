@@ -92,3 +92,7 @@ button:hover {
 .step.finish {
   background-color: #04AA6D;
 }
+
+#summary {
+  white-space: pre-line;
+}
