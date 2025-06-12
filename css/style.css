@@ -36,6 +36,8 @@ input.invalid {
 /* Hide all steps by default: */
 .tab {
   display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 button {

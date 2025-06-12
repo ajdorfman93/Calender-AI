@@ -5,6 +5,11 @@ function showTab(n) {
   // This function will display the specified tab of the form...
   var x = document.getElementsByClassName("tab");
   x[n].style.display = "block";
+  x[n].style.opacity = 0;
+  // Trigger a fade-in effect
+  requestAnimationFrame(function () {
+    x[n].style.opacity = 1;
+  });
   //... and fix the Previous/Next buttons:
   if (n == 0) {
     document.getElementById("prevBtn").style.display = "none";
@@ -26,8 +31,12 @@ function nextPrev(n) {
   var x = document.getElementsByClassName("tab");
   // Exit the function if any field in the current tab is invalid:
   if (n == 1 && !validateForm()) return false;
-  // Hide the current tab:
-  x[currentTab].style.display = "none";
+  // Hide the current tab with a fade-out effect
+  var oldTab = currentTab;
+  x[oldTab].style.opacity = 0;
+  setTimeout(function () {
+    x[oldTab].style.display = "none";
+  }, 300);
   // Increase or decrease the current tab by 1:
   currentTab = currentTab + n;
   // if you have reached the end of the form...
@@ -36,8 +45,10 @@ function nextPrev(n) {
     document.getElementById("regForm").submit();
     return false;
   }
-  // Otherwise, display the correct tab:
-  showTab(currentTab);
+  // Otherwise, display the correct tab after fade-out completes:
+  setTimeout(function () {
+    showTab(currentTab);
+  }, 300);
 }
 
 function validateForm() {
