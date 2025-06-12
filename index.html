@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Google Sign-In Sample</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google-signin-client_id" content="712709512104-lh3qbp91gucvqacid7tq6r8fdpv87caq.apps.googleusercontent.apps.googleusercontent.com">
 <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css"> 
@@ -13,6 +19,7 @@ function onSignIn(googleUser) {
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
 </script>
+</head>
 <body>
 <form id="regForm" action="/action.php">
   <h1>Register:</h1>
