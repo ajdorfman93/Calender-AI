@@ -127,6 +127,13 @@ const swipeTarget = document.getElementById("regForm");
 
 if (swipeTarget) {
   swipeTarget.addEventListener("pointerdown", function (e) {
+    // Don't start a swipe when interacting with form inputs
+    if (e.target.closest("input, textarea")) {
+      dragging = false;
+      startX = null;
+      startY = null;
+      return;
+    }
     startX = e.clientX;
     startY = e.clientY;
     dragging = true;
