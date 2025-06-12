@@ -5,6 +5,9 @@
 
 body {
   background-color: #f1f1f1;
+  user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
 }
 
 #regForm {
@@ -26,6 +29,9 @@ input {
   font-size: 17px;
   font-family: Raleway;
   border: 1px solid #aaaaaa;
+  user-select: text;
+  -webkit-user-select: text;
+  -ms-user-select: text;
 }
 
 /* Mark input boxes that gets an error on validation: */
