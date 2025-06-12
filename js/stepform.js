@@ -1,10 +1,28 @@
 var currentTab = 0; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the current tab
 
+// Helper functions to fade tabs in and out
+var TRANSITION_MS = 300;
+function fadeIn(el) {
+  el.style.display = "block";
+  el.style.opacity = 0;
+  requestAnimationFrame(function () {
+    el.style.opacity = 1;
+  });
+}
+
+function fadeOut(el, cb) {
+  el.style.opacity = 0;
+  setTimeout(function () {
+    el.style.display = "none";
+    if (cb) cb();
+  }, TRANSITION_MS);
+}
+
 function showTab(n) {
   // This function will display the specified tab of the form...
   var x = document.getElementsByClassName("tab");
-  x[n].style.display = "block";
+  fadeIn(x[n]);
   //... and fix the Previous/Next buttons:
   if (n == 0) {
     document.getElementById("prevBtn").style.display = "none";
@@ -25,18 +43,16 @@ function nextPrev(n) {
   var x = document.getElementsByClassName("tab");
   // Exit the function if any field in the current tab is invalid:
   if (n == 1 && !validateForm()) return false;
-  // Hide the current tab:
-  x[currentTab].style.display = "none";
-  // Increase or decrease the current tab by 1:
-  currentTab = currentTab + n;
-  // if you have reached the end of the form...
-  if (currentTab >= x.length) {
-    // ... the form gets submitted:
-    document.getElementById("regForm").submit();
-    return false;
-  }
-  // Otherwise, display the correct tab:
-  showTab(currentTab);
+  // Fade out the current tab and show the next/previous one when done
+  var oldTab = x[currentTab];
+  fadeOut(oldTab, function () {
+    currentTab = currentTab + n;
+    if (currentTab >= x.length) {
+      document.getElementById("regForm").submit();
+      return false;
+    }
+    showTab(currentTab);
+  });
 }
 
 function validateForm() {
